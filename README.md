@@ -8,6 +8,6 @@
 ```
 https://github.com/YuyangWitness/Udacity_Font_End_Developer.git
 ```
->open the `index.html`
+>open this file `index.html`
 
 

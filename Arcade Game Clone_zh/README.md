@@ -1,7 +1,15 @@
+# 经典街机游戏——捞金币
+通过JavaScript和Canvas做的一个简单小游戏。玩家可以选择一个人物进行游戏，当把地图上所有金币收集完成之后走到对岸即可进入下一关，与敌人碰撞即结束游戏。最后可以比拼谁的分数多。
 
-前端纳米学位街机游戏克隆项目
-===============================
+## 所用技术
+- HTML5,CSS3 and JavaScript
+- Canvas
+## 参考资料
+- [Udacity的Canvas教程](https://classroom.udacity.com/nanodegrees/nd001-cn-advanced/parts/82ba869b-bb0a-4ce8-847a-b59c6935ee05/modules/4468bcab-5934-4394-92d8-65d9b19f97b9/lessons/3163218691/concepts/31699687910923)
 
-学生应该用这个[评审标准](https://review.udacity.com/#!/rubrics/499/view))来自我检查自己提交的代码。 确认自己写的函数要是**面向对象的** -  要么是类函数（就像函数 Player 和 Enemy）要么是类的原型链上的函数比如 Enemy.prototype.checkCollisions ， 在类函数里面或者类的原型链函数里面适当的使用关键词 'this' 来引用调用该函数的对象实例。最后保证你的**readme.md**文件要写明关于如何运行和如何玩你的街机游戏的指引。
-
-关于如何开始这个项目的更详细的指导，可以查阅这份[指南](https://gdgdocs.org/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true)。
+## Install
+>clone or download 该项目到你的电脑里
+```
+https://github.com/YuyangWitness/Udacity_Font_End_Developer.git
+```
+>然后再打开 `index.html`

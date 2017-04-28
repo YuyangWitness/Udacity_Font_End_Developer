@@ -1,4 +1,9 @@
-// 这是我们的玩家要躲避的敌人 
+"use strict"
+
+//常量
+const TILE_WITH = 101;
+const TILE_HEIGHT = 80;
+// 这是我们的玩家要躲避的敌人
 var Enemy = function(x,y) {
     // 要应用到每个敌人的实例的变量写在这里
     // 我们已经提供了一个来帮助你实现更多    
@@ -52,50 +57,29 @@ Player.prototype.handleInput = function(direction) {
     let rsY = this.y;
     
     if(direction === "left") {
-        rsX = this.x - 101; 
+        rsX = this.x - TILE_WITH;
         //判断左移动以及临界值
          if(rsX < 0){
             this.x = 0;
             return;
         }
-
-        if(rsX > 404){
-            this.x = 404;
-            return;
-        }       
     }else if(direction === "right") {
-        rsX = this.x + 101; 
+        rsX = this.x + TILE_WITH;
          //判断右移动以及临界值
-         if(rsX < 0){
-            this.x = 0;
-            return;
-        }
-
         if(rsX > 404){
             this.x = 404;
             return;
         }
     }else if(direction === "up") {
-        rsY = this.y - 80;
+        rsY = this.y - TILE_HEIGHT;
          //判断上移动以及临界值
          if(rsY < -25){
             this.y = -25;
             return;
         }
-
-        if(rsY > 375){
-            this.y = 375;
-            return;
-        }
-
     }else if(direction === "down"){
-        rsY = this.y + 80;
+        rsY = this.y + TILE_HEIGHT;
          //判断下移动以及临界值
-         if(rsY < -25){
-            this.y = -25;
-            return;
-        }
-
         if(rsY > 375){
             this.y = 375;
             return;

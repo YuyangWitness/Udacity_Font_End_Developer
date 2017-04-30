@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 //常量
 const TILE_WITH = 101;

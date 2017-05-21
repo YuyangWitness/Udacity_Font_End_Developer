@@ -1,57 +1,30 @@
-## 网站性能优化项目
+# 网站性能优化项目
+根据Udacity的网站性能优化课程，第一个网页达到了pageSpeed 90分以上，第二个网页解决了部分卡顿问题。
 
-你要做的是尽可能优化这个在线项目的速度。注意，请应用你之前在[网站性能优化课程](https://cn.udacity.com/course/website-performance-optimization--ud884/)中学习的技术来优化关键渲染路径并使这个页面尽可能快的渲染。
+## pageSpeed
+通过对CSS、JS、图片的处理以及对文件的压缩，`index.html`关键路径渲染达到了90分以上。
 
-开始前，请导出这个代码库并检查代码。
+### 查看pageSpeed分数
+* 打开[pageSpeed](https://developers.google.com/speed/pagespeed/insights/)
+* 在输入框内输入页面地址`https://yuyangwitness.github.io/yuyang.github.io/`
 
-### 指南
+### 如何进行优化
+* 异步加载print.css，内联style.css代码，删除字体css
+* 异步加载JS文件
+* 通过base64转换图片文件，减少文件请求数
+* 通过gulp压缩JS文件，CSS文件以及HTML文件
 
-####Part 1: 优化 index.html 的 PageSpeed Insights 得分
+### 如何查看源码
+在本项目中`dist`文件夹中是压缩的代码，即生产环境；在本项目的`src`文件夹中是普通代码，即开发环境；`gulpfile.js`是gulp配置文件。
 
-以下是几个帮助你顺利开始本项目的提示：
+## 去除卡顿
+通过对`views/js/main.js`的优化，让`views\pizza.html`在滚动时保持`60fps`帧数；并且让页面上的 pizza 尺寸滑块运行时间小于5毫秒；
 
-1. 将这个代码库导出
-2. 你可以运行一个本地服务器，以便在你的手机上检查这个站点
+### 滚动如何优化
+* 在`main.js`文件的`547行`添加了requestAnimationFrame来增强动画的流畅性
+* 在`main.js`文件的`526行`提取出了` Math.sin(document.body.scrollTop  / 1250);`，防止每一次循环都要进行一次计算，这样大大的消耗了时间
 
-```bash
-  $> cd /你的工程目录
-  $> python -m SimpleHTTPServer 8080
-```
-
-1. 打开浏览器，访问 localhost:8080
-2. 下载 [ngrok](https://ngrok.com/) 并将其安装在你的工程根目录下，让你的本地服务器能够被远程访问。
-
-``` bash
-  $> cd /你的工程目录
-  $> ./ngrok http 8080
-```
-
-1. 复制ngrok提供给你的公共URL，然后尝试通过PageSpeed Insights访问它吧！可选阅读：[更多关于整合ngrok、Grunt和PageSpeed的信息](http://www.jamescryer.com/2014/06/12/grunt-pagespeed-and-ngrok-locally-testing/)。
-
-接下来，你可以一遍又一遍的进行配置、优化、检测了！祝你好运！
-
-----
-
-####Part 2: 优化 pizza.html 的 FPS（每秒帧数）
-
-你需要编辑 views/js/main.js 来优化 views/pizza.html，直到这个网页的 FPS 达到或超过 60fps。你会在 main.js 中找到一些对此有帮助的注释。
-
-你可以在 Chrome 开发者工具帮助中找到关于 FPS 计数器和 HUD 显示的有用信息。[Chrome 开发者工具帮助](https://developer.chrome.com/devtools/docs/tips-and-tricks).
-
-### 一些关于优化的提示与诀窍
-* [web 性能优化](https://developers.google.com/web/fundamentals/performance/ "web 性能")
-* [分析关键渲染路径](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/analyzing-crp.html "分析关键渲染路径")
-* [优化关键渲染路径](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/optimizing-critical-rendering-path.html "优化关键渲染路径！")
-* [避免 CSS 渲染阻塞](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-blocking-css.html "css渲染阻塞")
-* [优化 JavaScript](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/adding-interactivity-with-javascript.html "javascript")
-* [通过 Navigation Timing 进行检测](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/measure-crp.html "nav timing api")。在前两个课程中我们没有学习 Navigation Timing API，但它对于自动分析页面性能是一个非常有用的工具。我强烈推荐你阅读它。
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/eliminate-downloads.html">下载量越少，性能越好</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/optimize-encoding-and-transfer.html">减少文本的大小</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/image-optimization.html">优化图片</a>
-* <a href="https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching.html">HTTP缓存</a>
-
-### 使用 Bootstrap 并定制样式
-这个项目基于 Twitter 旗下的 <a href="http://getbootstrap.com/">Bootstrap框架</a> 制作。所有的定制样式都在项目代码库的 `dist/css/portfolio.css` 中。
-
-* <a href="http://getbootstrap.com/css/">Bootstrap CSS</a>
-* <a href="http://getbootstrap.com/components/">Bootstrap组件</a>
+###  尺寸滑块移动时间如何优化
+* 在`main.js`文件中合并`determineDx`和`changePizzaSizes`函数，并且新增了一个函数`getRandomPizzaContainerOffWidth`来获取每个`randomPizzaContainer`的`offsetWidth`，这样有效地防止了强制同步布局
+* 提取出了`document.querySelectorAll(".randomPizzaContainer")`以及其他在循环内部不断重复获取的信息，把这些重复的信息单独提取出来有效的减少了消耗的时间。
+* 代码从`422行`到`477行`，对原来的函数进行了拆分并且进行了新的合并。

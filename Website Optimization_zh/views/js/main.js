@@ -403,13 +403,13 @@ var resizePizzas = function(size) {
   function changeSliderLabel(size) {
     switch(size) {
       case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
+        document.getElementById("pizzaSize").innerHTML = "Small";
         return;
       case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
+        document.getElementById("pizzaSize").innerHTML = "Medium";
         return;
       case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
+        document.getElementById("pizzaSize").innerHTML = "Large";
         return;
       default:
         console.log("bug in changeSliderLabel");
@@ -511,27 +511,24 @@ function logAverageFrame(times) {   // times参数是updatePositions()由User Ti
 
 // 基于滚动条位置移动背景中的披萨滑窗
 function updatePositions() {
-  frame++;
-  window.performance.mark("mark_start_frame");
+	frame++;
+	window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
+	var items = document.querySelectorAll('.mover');
+	const bodyTop = document.body.scrollTop / 1250;
+	for (var i = 0; i < items.length; i++) {
+		var phase = Math.sin(bodyTop + (i % 5));
+		items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
+	}
 
-  //提取出Math.sin函数，放在循环内部的时候每循环一次都要重新划去scrollTop并且进行Math.sin计算，太耗时间了
-  const scrollTop = Math.sin(document.body.scrollTop  / 1250);
-
-  for (var i = 0; i < items.length; i++) {
-    var phase = scrollTop + (i % 5);
-    items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-  }
-
-  // 再次使用User Timing API。这很值得学习
-  // 能够很容易地自定义测量维度
-  window.performance.mark("mark_end_frame");
-  window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
-  if (frame % 10 === 0) {
-    var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
-    logAverageFrame(timesToUpdatePosition);
-  }
+	// 再次使用User Timing API。这很值得学习
+	// 能够很容易地自定义测量维度
+	window.performance.mark("mark_end_frame");
+	window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
+	if (frame % 10 === 0) {
+		var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
+		logAverageFrame(timesToUpdatePosition);
+	}
 }
 
 // 在页面滚动时运行updatePositions函数
@@ -543,9 +540,21 @@ window.addEventListener('scroll', function(){
 
 // 当页面加载时生成披萨滑窗
 document.addEventListener('DOMContentLoaded', function() {
-  var cols = 8;
+
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  //获取当前的浏览器高度和宽度
+  var clientHeight = document.documentElement.clientHeight;
+  var clientWidth = document.documentElement.clientWidth;
+
+  //所需pizza的行数
+  var rows = Math.ceil(clientHeight / 256);
+  console.log(rows);
+
+	//所需pizza的列数
+  var cols = Math.ceil(clientWidth / 300);
+  console.log( cols);
+
+  for (var i = 0; i < rows * cols; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";

@@ -21,10 +21,12 @@
 通过对`views/js/main.js`的优化，让`views\pizza.html`在滚动时保持`60fps`帧数；并且让页面上的 pizza 尺寸滑块运行时间小于5毫秒；
 
 ### 滚动如何优化
-* 在`main.js`文件的`547行`添加了requestAnimationFrame来增强动画的流畅性
-* 在`main.js`文件的`526行`提取出了` Math.sin(document.body.scrollTop  / 1250);`，防止每一次循环都要进行一次计算，这样大大的消耗了时间
+* 在`main.js`文件的`547行`添加了`requestAnimationFrame`来增强动画的流畅性
+* 在`main.js`文件的`526行`提取出了` document.body.scrollTop  / 1250`，防止每一次循环都要进行一次计算，这样大大的消耗了时间
+* 更改了背景pizza的个数，只在可视区内生成相应的pizza个数，减少了性能的消耗。
 
 ###  尺寸滑块移动时间如何优化
+* 把`querySelector`更改为`getElementById`，因为`querySelector`消耗更多的性能
 * 在`main.js`文件中合并`determineDx`和`changePizzaSizes`函数，并且新增了一个函数`getRandomPizzaContainerOffWidth`来获取每个`randomPizzaContainer`的`offsetWidth`，这样有效地防止了强制同步布局
 * 提取出了`document.querySelectorAll(".randomPizzaContainer")`以及其他在循环内部不断重复获取的信息，把这些重复的信息单独提取出来有效的减少了消耗的时间。
 * 代码从`422行`到`477行`，对原来的函数进行了拆分并且进行了新的合并。
